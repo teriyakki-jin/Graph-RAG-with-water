@@ -1,0 +1,182 @@
+[
+  {
+    "id": "Q01",
+    "category": "기준값_단순",
+    "difficulty": "easy",
+    "question": "먹는물의 탁도 기준은 얼마인가?",
+    "ground_truth": "먹는물의 탁도 기준은 0.5 NTU 이하입니다.",
+    "expected_keywords": ["0.5", "NTU", "탁도"],
+    "expected_numeric": {"value": 0.5, "unit": "NTU"}
+  },
+  {
+    "id": "Q02",
+    "category": "기준값_단순",
+    "difficulty": "easy",
+    "question": "수돗물의 잔류염소 기준은 급수 말단에서 얼마 이상을 유지해야 하는가?",
+    "ground_truth": "급수 말단 수도꼭지에서 잔류염소는 0.1 mg/L 이상을 유지해야 합니다.",
+    "expected_keywords": ["0.1", "mg/L", "잔류염소", "말단"],
+    "expected_numeric": {"value": 0.1, "unit": "mg/L"}
+  },
+  {
+    "id": "Q03",
+    "category": "기준값_단순",
+    "difficulty": "easy",
+    "question": "먹는물의 대장균 기준은?",
+    "ground_truth": "먹는물의 대장균은 100mL 중 불검출이어야 합니다.",
+    "expected_keywords": ["100mL", "불검출", "대장균"],
+    "expected_numeric": null
+  },
+  {
+    "id": "Q04",
+    "category": "기준값_단순",
+    "difficulty": "easy",
+    "question": "먹는물의 pH 기준 범위는?",
+    "ground_truth": "먹는물의 pH는 5.8 이상 8.5 이하여야 합니다.",
+    "expected_keywords": ["5.8", "8.5", "pH"],
+    "expected_numeric": null
+  },
+  {
+    "id": "Q05",
+    "category": "기준값_단순",
+    "difficulty": "easy",
+    "question": "먹는물에서 일반세균 기준은 얼마인가?",
+    "ground_truth": "일반세균은 1mL 중 100 CFU(Colony Forming Unit)를 넘지 않아야 합니다.",
+    "expected_keywords": ["100", "CFU", "일반세균", "1mL"],
+    "expected_numeric": {"value": 100, "unit": "CFU/mL"}
+  },
+  {
+    "id": "Q06",
+    "category": "소독_비교",
+    "difficulty": "medium",
+    "question": "염소 소독과 오존 소독의 가장 큰 차이점은 무엇인가?",
+    "ground_truth": "염소 소독은 잔류 효과가 있어 배수관까지 소독을 유지할 수 있지만 소독부산물(THM)이 생성됩니다. 오존 소독은 강력한 산화력으로 크립토스포리디움 등을 효과적으로 제거하고 THM이 생성되지 않지만 잔류 효과가 없어 후염소 처리가 필수입니다.",
+    "expected_keywords": ["잔류", "THM", "크립토스포리디움", "후염소"],
+    "expected_numeric": null
+  },
+  {
+    "id": "Q07",
+    "category": "소독_비교",
+    "difficulty": "medium",
+    "question": "UV 소독이 탁도에 민감한 이유와 권장 탁도 기준은?",
+    "ground_truth": "UV 소독은 자외선이 탁도 입자에 의해 차폐되면 미생물까지 도달하지 못해 효과가 저하됩니다. 따라서 탁도 1 NTU 이하인 조건에서 사용이 권장됩니다.",
+    "expected_keywords": ["탁도", "1 NTU", "UV", "자외선"],
+    "expected_numeric": {"value": 1.0, "unit": "NTU"}
+  },
+  {
+    "id": "Q08",
+    "category": "소독_비교",
+    "difficulty": "medium",
+    "question": "총트리할로메탄(THM)이 생성되는 원리를 설명하라.",
+    "ground_truth": "자연유기물(NOM)이 염소와 반응하여 트리할로메탄(THM)과 할로아세틱산(HAA)이 생성됩니다. 브롬화물이 존재하면 독성이 더 강한 브롬계 THM이 생성됩니다. 총트리할로메탄 기준은 0.1 mg/L 이하입니다.",
+    "expected_keywords": ["NOM", "자연유기물", "THM", "0.1 mg/L", "할로아세틱산"],
+    "expected_numeric": {"value": 0.1, "unit": "mg/L"}
+  },
+  {
+    "id": "Q09",
+    "category": "공정_분석",
+    "difficulty": "medium",
+    "question": "정수 처리 공정의 순서를 설명하라.",
+    "ground_truth": "정수 처리 공정은 취수 → 착수정 → 응집 → 침전 → 여과 → 소독 → 배수지 → 급수 순으로 진행됩니다.",
+    "expected_keywords": ["취수", "응집", "침전", "여과", "소독", "배수지"],
+    "expected_numeric": null
+  },
+  {
+    "id": "Q10",
+    "category": "공정_분석",
+    "difficulty": "medium",
+    "question": "응집 공정에서 사용하는 주요 약품과 목적은?",
+    "ground_truth": "응집 공정에서는 황산알루미늄(명반)이나 PAC(폴리염화알루미늄)와 같은 응집제를 사용합니다. 이를 통해 원수 내 미세 입자를 뭉쳐 플록(Floc)을 형성하여 침전 제거를 용이하게 합니다.",
+    "expected_keywords": ["황산알루미늄", "PAC", "플록", "응집"],
+    "expected_numeric": null
+  },
+  {
+    "id": "Q11",
+    "category": "법령",
+    "difficulty": "medium",
+    "question": "수도법에서 수질기준 위반으로 수돗물을 공급한 경우 처벌은?",
+    "ground_truth": "수도법 제83조에 따라 수질기준에 미달하는 수돗물을 공급한 자는 2년 이하의 징역 또는 2천만원 이하의 벌금에 처합니다.",
+    "expected_keywords": ["2년", "2천만원", "수도법", "제83조"],
+    "expected_numeric": null
+  },
+  {
+    "id": "Q12",
+    "category": "법령",
+    "difficulty": "medium",
+    "question": "수질이상 발생 시 신고 의무를 이행하지 않으면 과태료는 얼마인가?",
+    "ground_truth": "수도법 제84조에 따라 수질이상 발생 시 신고 의무 불이행 시 500만원 이하의 과태료가 부과됩니다.",
+    "expected_keywords": ["500만원", "과태료", "신고", "수도법", "제84조"],
+    "expected_numeric": {"value": 500, "unit": "만원"}
+  },
+  {
+    "id": "Q13",
+    "category": "법령",
+    "difficulty": "medium",
+    "question": "수질기준 초과 시 즉시 급수를 정지해야 하는 경우는 어떤 경우인가?",
+    "ground_truth": "수도법 시행령 제46조에 따라 대장균 또는 분원성대장균군 검출, 일반세균 기준 10배 이상 초과, 납·비소·수은 등 건강항목 기준 2배 이상 초과 시 즉시 급수를 정지해야 합니다.",
+    "expected_keywords": ["대장균", "10배", "건강항목", "2배", "즉시"],
+    "expected_numeric": null
+  },
+  {
+    "id": "Q14",
+    "category": "법령",
+    "difficulty": "hard",
+    "question": "수질기준 초과 확인 후 의무 조치 절차 7단계를 설명하라.",
+    "ground_truth": "1단계 기준초과 확인, 2단계 4시간 이내 환경부·지자체 보고, 3단계 재검사 실시, 4단계 원인 규명, 5단계 급수 중단 또는 대체 급수, 6단계 개선 조치 후 재검사 통과 시 급수 재개, 7단계 30일 이내 사고 보고서 환경부 제출입니다.",
+    "expected_keywords": ["4시간", "30일", "재검사", "환경부"],
+    "expected_numeric": null
+  },
+  {
+    "id": "Q15",
+    "category": "법령",
+    "difficulty": "easy",
+    "question": "먹는물 수질기준에서 잔류염소는 매일 검사해야 하는가?",
+    "ground_truth": "잔류염소는 매일 1회 이상 검사해야 합니다.",
+    "expected_keywords": ["매일", "잔류염소", "검사"],
+    "expected_numeric": null
+  },
+  {
+    "id": "Q16",
+    "category": "사고_사례",
+    "difficulty": "hard",
+    "question": "인천 붉은 수돗물 사고의 원인과 위반된 수질기준 항목은?",
+    "ground_truth": "2019년 인천 붉은 수돗물 사고는 수계 전환 과정에서 배수관 내 침전물이 유출되어 발생했습니다. 위반된 수질기준은 탁도 0.5 NTU 초과와 철 0.3 mg/L 초과로 심미적 항목 기준을 위반했습니다.",
+    "expected_keywords": ["탁도", "철", "0.5 NTU", "0.3 mg/L", "2019", "수계전환"],
+    "expected_numeric": null
+  },
+  {
+    "id": "Q17",
+    "category": "사고_사례",
+    "difficulty": "hard",
+    "question": "낙동강 페놀 오염 사고가 수질 법령에 미친 영향은?",
+    "ground_truth": "1991년 낙동강 페놀 오염 사고 이후 수질환경보전법이 대폭 개정되어 폐수종말처리 의무화가 시행되었습니다. K-water 낙동강 정수장에는 오존+UV+염소 고도처리 방식이 도입되었습니다.",
+    "expected_keywords": ["1991", "수질환경보전법", "페놀", "오존", "폐수종말처리"],
+    "expected_numeric": null
+  },
+  {
+    "id": "Q18",
+    "category": "사고_사례",
+    "difficulty": "hard",
+    "question": "낙동강 페놀 사고에서 두산전자의 처벌 결과는?",
+    "ground_truth": "낙동강 페놀 사고에서 두산전자는 공장 조업 정지 처분을 받았고, 관련자가 구속·기소되었으며, 약 400억원 규모의 손해배상을 지급했습니다.",
+    "expected_keywords": ["두산전자", "조업정지", "400억", "구속"],
+    "expected_numeric": {"value": 400, "unit": "억원"}
+  },
+  {
+    "id": "Q19",
+    "category": "멀티홉",
+    "difficulty": "hard",
+    "question": "오존 소독을 도입한 정수장과 그 이유, 그리고 오존 소독의 한계를 연결하여 설명하라.",
+    "ground_truth": "K-water 낙동강 정수장은 1991년 페놀 사고 이후 강화된 처리 방식으로 오존+UV+염소 고도처리를 적용합니다. 오존 소독은 크립토스포리디움, 지아디아 같은 원충을 효과적으로 제거하고 맛·냄새 물질 제거에도 우수하지만, 잔류 효과가 없어 배수관 내 재오염 방지를 위해 후염소 처리를 병행해야 합니다.",
+    "expected_keywords": ["낙동강", "1991", "오존", "크립토스포리디움", "후염소", "잔류"],
+    "expected_numeric": null
+  },
+  {
+    "id": "Q20",
+    "category": "멀티홉",
+    "difficulty": "hard",
+    "question": "페놀의 먹는물 수질기준과 1991년 낙동강 사고에서의 실제 검출 농도를 비교하라.",
+    "ground_truth": "먹는물 수질기준에서 페놀은 0.005 mg/L 이하여야 합니다. 1991년 낙동강 페놀 오염 사고에서 최대 0.22 mg/L가 검출되어 기준치의 44배를 초과했습니다.",
+    "expected_keywords": ["0.005 mg/L", "0.22 mg/L", "페놀", "44배"],
+    "expected_numeric": {"value": 0.005, "unit": "mg/L"}
+  }
+]

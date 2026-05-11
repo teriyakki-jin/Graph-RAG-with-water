@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Env
+.env
+*.env
+
+# Neo4j data (Docker 볼륨)
+docker/neo4j/data/
+docker/neo4j/logs/
+docker/neo4j/plugins/
+
+# ML models cache
+.cache/
+huggingface/
+
+# IDE
+.vscode/
+.idea/
+
+# Test
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Docs
+*.pdf
+
+# Data (대용량 파일 제외, 샘플 문서는 포함)
+data/raw/
+data/processed/
+
+# Frontend
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+
+# Evaluation output
+evaluation/eval_result.json
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Review files
+GEMINI_REVIEW.md
