@@ -6,8 +6,9 @@ logger = get_logger(__name__)
 
 _NODE_QUERY = """
 MATCH (n:__Entity__)
+WHERE n.id IS NOT NULL
 RETURN
-  elementId(n)   AS id,
+  n.id           AS id,
   n.id           AS label,
   labels(n)      AS types,
   properties(n)  AS props
@@ -16,9 +17,10 @@ LIMIT $limit
 
 _EDGE_QUERY = """
 MATCH (a:__Entity__)-[r]->(b:__Entity__)
+WHERE a.id IS NOT NULL AND b.id IS NOT NULL
 RETURN
-  elementId(a)  AS source,
-  elementId(b)  AS target,
+  a.id          AS source,
+  b.id          AS target,
   type(r)       AS rel_type,
   properties(r) AS props
 LIMIT $limit
@@ -26,10 +28,11 @@ LIMIT $limit
 
 _NEIGHBOR_QUERY = """
 MATCH (n:__Entity__ {id: $name})-[r]-(m:__Entity__)
+WHERE m.id IS NOT NULL
 RETURN
-  elementId(n)  AS src_id,   n.id AS src_label,  labels(n) AS src_types,
-  elementId(m)  AS tgt_id,   m.id AS tgt_label,  labels(m) AS tgt_types,
-  type(r)       AS rel_type, properties(r)        AS rel_props
+  n.id AS src_id,   n.id AS src_label,  labels(n) AS src_types,
+  m.id AS tgt_id,   m.id AS tgt_label,  labels(m) AS tgt_types,
+  type(r)       AS rel_type, properties(r) AS rel_props
 LIMIT $limit
 """
 
