@@ -31,7 +31,13 @@ export default function GraphViewer({ nodes, edges, highlightIds = new Set(), on
     [onNodeClick]
   );
 
-  useGraphSimulation(svgRef, nodes, edges, {
+  // 양쪽 노드가 모두 존재하는 엣지만 D3에 전달 (node not found 방지)
+  const nodeIds = new Set(nodes.map((n) => n.id));
+  const validEdges = edges.filter(
+    (e) => nodeIds.has(e.source as string) && nodeIds.has(e.target as string)
+  );
+
+  useGraphSimulation(svgRef, nodes, validEdges, {
     width: size.width,
     height: size.height,
     highlightIds,

@@ -9,7 +9,7 @@ router = APIRouter(prefix="/graph", tags=["graph"])
 
 
 @router.get("/nodes", response_model=GraphData)
-async def get_graph_nodes(limit: int = Query(default=100, ge=1, le=500)) -> GraphData:
+async def get_graph_nodes(limit: int = Query(default=300, ge=1, le=500)) -> GraphData:
     """전체 지식 그래프 노드/엣지 반환. D3.js force-directed graph 연동용."""
     return await fetch_graph(limit=limit)
 
