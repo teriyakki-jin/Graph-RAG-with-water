@@ -1,0 +1,475 @@
+{
+  "summary": {
+    "total": 20,
+    "evaluated": 20,
+    "failed": 0,
+    "total_time_sec": 224.97,
+    "avg_latency_sec": 11.245
+  },
+  "aggregate_scores": {
+    "faithfulness": 0.546,
+    "answer_relevancy": 0.6506,
+    "context_precision": 0.805,
+    "keyword_recall": 0.6058,
+    "numeric_accuracy": 0.835,
+    "overall": 0.6611
+  },
+  "by_category": {
+    "공정_분석": {
+      "faithfulness": 0.5666,
+      "answer_relevancy": 0.5333,
+      "context_precision": 0.875,
+      "keyword_recall": 0.7084,
+      "numeric_accuracy": 1.0,
+      "overall": 0.7305
+    },
+    "기준값_단순": {
+      "faithfulness": 0.6333,
+      "answer_relevancy": 0.8556,
+      "context_precision": 0.95,
+      "keyword_recall": 0.8833,
+      "numeric_accuracy": 0.74,
+      "overall": 0.7961
+    },
+    "멀티홉": {
+      "faithfulness": 0.5238,
+      "answer_relevancy": 0.4,
+      "context_precision": 0.875,
+      "keyword_recall": 0.625,
+      "numeric_accuracy": 1.0,
+      "overall": 0.6772
+    },
+    "법령": {
+      "faithfulness": 0.3286,
+      "answer_relevancy": 0.4472,
+      "context_precision": 0.46,
+      "keyword_recall": 0.28,
+      "numeric_accuracy": 0.8,
+      "overall": 0.4309
+    },
+    "사고_사례": {
+      "faithfulness": 0.7222,
+      "answer_relevancy": 0.8333,
+      "context_precision": 0.85,
+      "keyword_recall": 0.7278,
+      "numeric_accuracy": 1.0,
+      "overall": 0.8036
+    },
+    "소독_비교": {
+      "faithfulness": 0.5873,
+      "answer_relevancy": 0.7107,
+      "context_precision": 1.0,
+      "keyword_recall": 0.4833,
+      "numeric_accuracy": 0.6667,
+      "overall": 0.6204
+    }
+  },
+  "by_difficulty": {
+    "easy": {
+      "faithfulness": 0.6611,
+      "answer_relevancy": 0.8519,
+      "context_precision": 0.9583,
+      "keyword_recall": 0.9028,
+      "numeric_accuracy": 0.7833,
+      "overall": 0.8189
+    },
+    "hard": {
+      "faithfulness": 0.5651,
+      "answer_relevancy": 0.6542,
+      "context_precision": 0.7583,
+      "keyword_recall": 0.5722,
+      "numeric_accuracy": 1.0,
+      "overall": 0.6828
+    },
+    "medium": {
+      "faithfulness": 0.4452,
+      "answer_relevancy": 0.4971,
+      "context_precision": 0.725,
+      "keyword_recall": 0.4083,
+      "numeric_accuracy": 0.75,
+      "overall": 0.5264
+    }
+  },
+  "results": [
+    {
+      "id": "Q01",
+      "category": "기준값_단순",
+      "difficulty": "easy",
+      "question": "먹는물의 탁도 기준은 얼마인가?",
+      "answer": "먹는물의 탁도 기준은 0.5 NTU 이하입니다. 이는 수도법 제26조에 명시된 수질기준입니다.",
+      "ground_truth": "먹는물의 탁도 기준은 0.5 NTU 이하입니다.",
+      "cypher_query": "MATCH (w:__Entity__)-[r]->(t:__Entity__) \nWHERE w.id CONTAINS '먹는물' AND t.id CONTAINS '탁도' AND (type(r) IN ['기준값이다', '규정한다', '포함한다']) \nRETURN w.id AS 항목, type(r) AS 관계, t.id AS 값 LIMIT 10\n",
+      "latency_sec": 28.252,
+      "scores": {
+        "faithfulness": 0.6667,
+        "answer_relevancy": 0.75,
+        "context_precision": 1.0,
+        "keyword_recall": 1.0,
+        "numeric_accuracy": 1.0,
+        "overall": 0.8917
+      },
+      "error": null
+    },
+    {
+      "id": "Q02",
+      "category": "기준값_단순",
+      "difficulty": "easy",
+      "question": "수돗물의 잔류염소 기준은 급수 말단에서 얼마 이상을 유지해야 하는가?",
+      "answer": "수돗물의 잔류염소 기준은 급수 말단에서 0.2 mg/L 이상을 유지해야 합니다. 이는 보건복지부의 수돗물 품질 기준에 따라 설정되었습니다.",
+      "ground_truth": "급수 말단 수도꼭지에서 잔류염소는 0.1 mg/L 이상을 유지해야 합니다.",
+      "cypher_query": "MATCH (s:__Entity__)-[r]->(v:__Entity__) \nWHERE s.id CONTAINS '잔류염소' AND (type(r) IN ['기준값이다', '규정한다', '포함한다']) \nRETURN s.id AS 항목, type(r) AS 관계, v.id AS 값 \nLIMIT 10\n",
+      "latency_sec": 5.459,
+      "scores": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.7778,
+        "context_precision": 0.75,
+        "keyword_recall": 0.75,
+        "numeric_accuracy": 0.0,
+        "overall": 0.6653
+      },
+      "error": null
+    },
+    {
+      "id": "Q03",
+      "category": "기준값_단순",
+      "difficulty": "easy",
+      "question": "먹는물의 대장균 기준은?",
+      "answer": "먹는물의 대장균 기준은 100 mL당 불검출입니다. 이는 수도법 제26조에 명시된 수질기준에 따른 것입니다.",
+      "ground_truth": "먹는물의 대장균은 100mL 중 불검출이어야 합니다.",
+      "cypher_query": "MATCH (d:__Entity__)-[r]->(c:__Entity__) \nWHERE d.id CONTAINS '대장균' AND (type(r) IN ['기준값이다', '규정한다', '포함한다']) \nRETURN d.id AS 항목, type(r) AS 관계, c.id AS 값 LIMIT 10\n",
+      "latency_sec": 5.25,
+      "scores": {
+        "faithfulness": 0.5,
+        "answer_relevancy": 1.0,
+        "context_precision": 1.0,
+        "keyword_recall": 0.6667,
+        "numeric_accuracy": 1.0,
+        "overall": 0.7583
+      },
+      "error": null
+    },
+    {
+      "id": "Q04",
+      "category": "기준값_단순",
+      "difficulty": "easy",
+      "question": "먹는물의 pH 기준 범위는?",
+      "answer": "먹는물의 pH 기준 범위는 5.8 이상 8.5 이하입니다. 이 기준은 수도법 제26조에 명시되어 있습니다.",
+      "ground_truth": "먹는물의 pH는 5.8 이상 8.5 이하여야 합니다.",
+      "cypher_query": "MATCH (s:__Entity__)-[r]->(v:__Entity__) \nWHERE s.id CONTAINS 'pH' AND (type(r) IN ['기준값이다', '규정한다', '포함한다']) \nRETURN s.id AS 항목, type(r) AS 관계, v.id AS 값 LIMIT 10\n",
+      "latency_sec": 4.67,
+      "scores": {
+        "faithfulness": 0.5,
+        "answer_relevancy": 1.0,
+        "context_precision": 1.0,
+        "keyword_recall": 1.0,
+        "numeric_accuracy": 1.0,
+        "overall": 0.875
+      },
+      "error": null
+    },
+    {
+      "id": "Q05",
+      "category": "기준값_단순",
+      "difficulty": "easy",
+      "question": "먹는물에서 일반세균 기준은 얼마인가?",
+      "answer": "먹는물에서 일반세균 기준은 1mL 중 100 CFU(Colony Forming Unit)를 넘지 않아야 합니다. 이는 수도법 제26조에 명시된 수질기준입니다.",
+      "ground_truth": "일반세균은 1mL 중 100 CFU(Colony Forming Unit)를 넘지 않아야 합니다.",
+      "cypher_query": "MATCH (g:__Entity__)-[r]->(v:__Entity__) \nWHERE g.id CONTAINS '일반세균' AND (type(r) IN ['기준값이다', '규정한다', '포함한다']) \nRETURN g.id AS 항목, type(r) AS 관계, v.id AS 값 LIMIT 10\n",
+      "latency_sec": 4.893,
+      "scores": {
+        "faithfulness": 0.5,
+        "answer_relevancy": 0.75,
+        "context_precision": 1.0,
+        "keyword_recall": 1.0,
+        "numeric_accuracy": 0.7,
+        "overall": 0.79
+      },
+      "error": null
+    },
+    {
+      "id": "Q06",
+      "category": "소독_비교",
+      "difficulty": "medium",
+      "question": "염소 소독과 오존 소독의 가장 큰 차이점은 무엇인가?",
+      "answer": "염소 소독과 오존 소독의 가장 큰 차이점은 다음과 같습니다:\n\n1. **사용 화합물 및 주입 농도**:\n   - 염소 소독: 차아염소산칼슘, 액화염소, 차아염소산나트륨을 사용하며, 원수 1 m³당 0.5~3 mg의 농도로 주입됩니다.\n   - 오존 소독: 오존을 사용하며, 주입 농도는 1~3 mg/L입니다 (접촉 시간 10분).\n\n2. **잔류 효과**:\n   - 염소 소독: 잔여 효과가 있어 물속에서 일정 시간 잔존하여 추가적인 미생물 오염을 방지합니다.\n   - 오존 소독: 잔여 효과가 없어 소독 후 추가적인 미생물 오염을 방지할 수 없습니다.\n\n3. **소독부산물**:\n   - 염소 소독: 소독부산물로 총트리할로메탄(THM)과 같은 유해한 물질을 생성할 수 있으며, THM 기준은 0.1 mg/L 이하로 유지해야 합니다.\n   - 오존 소독: 소독부산물이 생성되지 않으며, 브로모산염(BrO₃⁻)이 생성될 수 있으나 기준은 0.01 mg/L 이하입니다.\n\n4. **비용 및 적용 분야**:\n   - 염소 소독: 상대적으로 저렴하고 대규모 수처리에 적합하며, 주로 수돗물, 수영장 물, 폐수 처리에 사용됩니다.\n   - 오존 소독: 높은 설치 비용이 필요하지만 강력한 산화력으로 식수 처리, 산업용수, 식품 가공 등에서 사용됩니다.\n\n이러한 차이점들은 염소 소독이 주로 수돗물과 폐수 처리에 적합하고, 오존 소독이 식수 및 산업용수 처리에 더 많이 사용되는 이유를 설명합니다.",
+      "ground_truth": "염소 소독은 잔류 효과가 있어 배수관까지 소독을 유지할 수 있지만 소독부산물(THM)이 생성됩니다. 오존 소독은 강력한 산화력으로 크립토스포리디움 등을 효과적으로 제거하고 THM이 생성되지 않지만 잔류 효과가 없어 후염소 처리가 필수입니다.",
+      "cypher_query": "MATCH (c:__Entity__)-[r1]->(p:__Entity__) WHERE c.id CONTAINS '염소' AND type(r1) IN ['사용한다', '규정한다', '적용한다']\nOPTIONAL MATCH (p)-[r2]->(detail:__Entity__)\nRETURN c.id AS 소독방법, type(r1) AS 관계, p.id AS 원리_특징, collect(detail.id) AS 세부정보 LIMIT 15\n",
+      "latency_sec": 28.756,
+      "scores": {
+        "faithfulness": 0.381,
+        "answer_relevancy": 0.8571,
+        "context_precision": 1.0,
+        "keyword_recall": 0.5,
+        "numeric_accuracy": 1.0,
+        "overall": 0.656
+      },
+      "error": null
+    },
+    {
+      "id": "Q07",
+      "category": "소독_비교",
+      "difficulty": "medium",
+      "question": "UV 소독이 탁도에 민감한 이유와 권장 탁도 기준은?",
+      "answer": "UV 소독이 탁도에 민감한 이유는 UV-C 빛이 물속의 미생물을 효과적으로 제거하기 위해서는 빛이 물속에서 충분히 투과해야 하기 때문입니다. 탁도가 높은 물은 미세한 입자들이 많아 UV 빛의 경로를 차단하거나 산란시켜 소독 효과를 감소시킵니다. 따라서, 탁도가 낮은 물에서 UV 소독이 더 효과적입니다. \n\n권장 탁도 기준은 1 NTU(네팔리 탁도 단위) 이하입니다. 탁도가 이 기준을 초과할 경우 UV 빛의 투과성이 감소하여 소독 효과가 저하될 수 있습니다. 탁도가 높은 물은 UV 광선이 물속으로 침투하는 것을 방해하여 UV 소독 시스템의 효율성을 감소시키고, 미생물의 사멸률이 낮아질 수 있습니다. 따라서, UV 소독을 효과적으로 수행하기 위해서는 탁도를 낮추는 사전 처리 과정이 필요합니다.",
+      "ground_truth": "UV 소독은 자외선이 탁도 입자에 의해 차폐되면 미생물까지 도달하지 못해 효과가 저하됩니다. 따라서 탁도 1 NTU 이하인 조건에서 사용이 권장됩니다.",
+      "cypher_query": "MATCH (u:__Entity__)-[r1]->(s:__Entity__) WHERE u.id CONTAINS 'UV 소독' AND (type(r1) IN ['원인이다', '사용한다', '처리한다'])\nOPTIONAL MATCH (s)-[r2]->(effect:__Entity__) RETURN u.id AS 소독방법, type(r1) AS 관계, s.id AS 영향, collect(effect.id) AS 세부정보 LIMIT 15\n",
+      "latency_sec": 13.513,
+      "scores": {
+        "faithfulness": 0.7143,
+        "answer_relevancy": 0.875,
+        "context_precision": 1.0,
+        "keyword_recall": 0.75,
+        "numeric_accuracy": 1.0,
+        "overall": 0.8286
+      },
+      "error": null
+    },
+    {
+      "id": "Q08",
+      "category": "소독_비교",
+      "difficulty": "medium",
+      "question": "총트리할로메탄(THM)이 생성되는 원리를 설명하라.",
+      "answer": "총트리할로메탄(THM)은 주로 수처리 과정에서 유기물과 염소계 소독제(예: 염소)가 반응하여 생성됩니다. 이 과정은 다음과 같은 원리로 이루어집니다:\n\n1. **유기물 존재**: 수원에 자연적으로 존재하는 유기물(예: 식물 잔해, 미생물 등)이 THM 생성의 기초가 됩니다.\n\n2. **소독제 사용**: 수처리 과정에서 물의 안전성을 높이기 위해 염소와 같은 소독제를 추가합니다. 염소는 미생물을 제거하는 데 효과적이지만, 유기물과 반응하여 THM을 생성할 수 있습니다.\n\n3. **화학 반응**: 염소가 유기물과 반응하면서 다양한 화학적 변화를 일으키고, 이 과정에서 클로로포름, 브로모포름 등 여러 종류의 THM이 생성됩니다.\n\n4. **환경적 요인**: 수온, pH, 유기물의 농도 등 다양한 환경적 요인이 THM의 생성량에 영향을 미칩니다.\n\n따라서, THM은 수처리 과정에서 유기물과 염소의 반응으로 생성되며, 이는 수질 관리에서 중요한 고려사항입니다.",
+      "ground_truth": "자연유기물(NOM)이 염소와 반응하여 트리할로메탄(THM)과 할로아세틱산(HAA)이 생성됩니다. 브롬화물이 존재하면 독성이 더 강한 브롬계 THM이 생성됩니다. 총트리할로메탄 기준은 0.1 mg/L 이하입니다.",
+      "cypher_query": "MATCH (thm:__Entity__)-[r1]->(effect:__Entity__) \nWHERE thm.id CONTAINS '총트리할로메탄' \nAND (type(r1) IN ['생성한다', '원인이다', '처리한다', '사용한다']) \nOPTIONAL MATCH (effect)-[r2]->(detail:__Entity__) \nRETURN thm.id AS 물질, type(r1) AS 관계, effect.id AS 영향, collect(detail.id) AS 세부정보 LIMIT 15\n",
+      "latency_sec": 13.325,
+      "scores": {
+        "faithfulness": 0.6667,
+        "answer_relevancy": 0.4,
+        "context_precision": 1.0,
+        "keyword_recall": 0.2,
+        "numeric_accuracy": 0.0,
+        "overall": 0.3767
+      },
+      "error": null
+    },
+    {
+      "id": "Q09",
+      "category": "공정_분석",
+      "difficulty": "medium",
+      "question": "정수 처리 공정의 순서를 설명하라.",
+      "answer": "정수 처리 공정은 원수를 음용에 적합하도록 처리하는 과정으로, K-water(한국수자원공사)와 각 지방자치단체가 운영하는 정수장에서 수행됩니다. 주요 공정은 다음과 같은 순서로 진행됩니다:\n\n1. **착수정**: 원수를 저장하는 단계입니다.\n2. **응집 및 침전**: 화학 약품을 사용하여 물속의 미세한 입자들을 응집시켜 큰 덩어리로 만든 후, 중력에 의해 침전시킵니다.\n3. **여과**: 침전된 물질을 제거하기 위해 다양한 여과 매체를 사용하여 물을 통과시킵니다.\n4. **소독**: 물속의 병원균을 제거하기 위해 소독제를 사용합니다.\n5. **pH 조정**: 물의 pH를 조정하여 부식성을 줄이고 수질을 개선합니다.\n6. **저장 및 배급**: 처리된 물을 저장하고 배급 시스템을 통해 공급합니다.\n\n이러한 단계들은 안전한 음용수를 제공하기 위해 필수적이며, 최종 목표는 오염물질을 제거하고 물의 물리적, 화학적, 생물학적 특성을 개선하여 인체에 해롭지 않은 수준으로 정화하는 것입니다.",
+      "ground_truth": "정수 처리 공정은 취수 → 착수정 → 응집 → 침전 → 여과 → 소독 → 배수지 → 급수 순으로 진행됩니다.",
+      "cypher_query": "MATCH (p:__Entity__) \nWHERE p.id CONTAINS '정수 처리' \nRETURN p.id AS 공정, p.설명 AS 정의 LIMIT 10\n",
+      "latency_sec": 17.712,
+      "scores": {
+        "faithfulness": 0.1333,
+        "answer_relevancy": 0.4,
+        "context_precision": 1.0,
+        "keyword_recall": 0.6667,
+        "numeric_accuracy": 1.0,
+        "overall": 0.6067
+      },
+      "error": null
+    },
+    {
+      "id": "Q10",
+      "category": "공정_분석",
+      "difficulty": "medium",
+      "question": "응집 공정에서 사용하는 주요 약품과 목적은?",
+      "answer": "응집 공정에서 사용하는 주요 약품은 '황산알루미늄'과 'Pac'입니다. 이 약품들은 물속의 미세한 입자들을 응집시켜 큰 덩어리로 만들어 침전시키는 역할을 하며, 이를 통해 물의 탁도를 감소시키고 정수 과정의 효율성을 높이는 목적을 가지고 있습니다.",
+      "ground_truth": "응집 공정에서는 황산알루미늄(명반)이나 PAC(폴리염화알루미늄)와 같은 응집제를 사용합니다. 이를 통해 원수 내 미세 입자를 뭉쳐 플록(Floc)을 형성하여 침전 제거를 용이하게 합니다.",
+      "cypher_query": "MATCH (p:__Entity__)-[:사용한다]->(a:__Entity__) \nWHERE p.id CONTAINS '응집' \nRETURN p.id AS 공정, collect(a.id) AS 사용약품 LIMIT 10\n",
+      "latency_sec": 5.569,
+      "scores": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.6667,
+        "context_precision": 0.75,
+        "keyword_recall": 0.75,
+        "numeric_accuracy": 1.0,
+        "overall": 0.8542
+      },
+      "error": null
+    },
+    {
+      "id": "Q11",
+      "category": "법령",
+      "difficulty": "medium",
+      "question": "수도법에서 수질기준 위반으로 수돗물을 공급한 경우 처벌은?",
+      "answer": "해당 정보를 찾을 수 없습니다.",
+      "ground_truth": "수도법 제83조에 따라 수질기준에 미달하는 수돗물을 공급한 자는 2년 이하의 징역 또는 2천만원 이하의 벌금에 처합니다.",
+      "cypher_query": null,
+      "latency_sec": 3.296,
+      "scores": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "context_precision": 0.25,
+        "keyword_recall": 0.0,
+        "numeric_accuracy": 1.0,
+        "overall": 0.225
+      },
+      "error": null
+    },
+    {
+      "id": "Q12",
+      "category": "법령",
+      "difficulty": "medium",
+      "question": "수질이상 발생 시 신고 의무를 이행하지 않으면 과태료는 얼마인가?",
+      "answer": "해당 정보를 찾을 수 없습니다.",
+      "ground_truth": "수도법 제84조에 따라 수질이상 발생 시 신고 의무 불이행 시 500만원 이하의 과태료가 부과됩니다.",
+      "cypher_query": null,
+      "latency_sec": 2.948,
+      "scores": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "context_precision": 0.2,
+        "keyword_recall": 0.0,
+        "numeric_accuracy": 0.0,
+        "overall": 0.02
+      },
+      "error": null
+    },
+    {
+      "id": "Q13",
+      "category": "법령",
+      "difficulty": "medium",
+      "question": "수질기준 초과 시 즉시 급수를 정지해야 하는 경우는 어떤 경우인가?",
+      "answer": "수질기준 초과 시 즉시 급수를 정지해야 하는 경우는 다음과 같습니다:\n\n1. **유해 물질 농도 초과**: 수돗물에 중금속(예: 납, 수은)이나 유해 화학물질(예: 클로로포름, 농약 등)의 농도가 기준치를 초과할 경우.\n2. **미생물 오염**: 대장균, 살모넬라 등 병원성 미생물이 검출되어 수질 기준을 초과할 경우.\n3. **물리적 오염**: 수질이 탁하거나 색이 변하는 등 물리적 특성이 기준을 초과할 경우.\n\n이러한 경우들은 모두 인체 건강에 직접적인 영향을 미칠 수 있으므로, 즉각적인 조치가 필요합니다. (출처: 수도법 제26조)",
+      "ground_truth": "수도법 시행령 제46조에 따라 대장균 또는 분원성대장균군 검출, 일반세균 기준 10배 이상 초과, 납·비소·수은 등 건강항목 기준 2배 이상 초과 시 즉시 급수를 정지해야 합니다.",
+      "cypher_query": "MATCH (c:__Entity__)-[r:위반한다]->(s:__Entity__) \nWHERE c.id CONTAINS '수질기준' AND r.조건 CONTAINS '즉시 급수 정지' \nRETURN c.id AS 기준, type(r) AS 관계, s.id AS 위반항목 LIMIT 10\n",
+      "latency_sec": 9.013,
+      "scores": {
+        "faithfulness": 0.6667,
+        "answer_relevancy": 0.7778,
+        "context_precision": 0.6,
+        "keyword_recall": 0.4,
+        "numeric_accuracy": 1.0,
+        "overall": 0.6444
+      },
+      "error": null
+    },
+    {
+      "id": "Q14",
+      "category": "법령",
+      "difficulty": "hard",
+      "question": "수질기준 초과 확인 후 의무 조치 절차 7단계를 설명하라.",
+      "answer": "수질기준 초과 확인 후 의무 조치 절차는 다음과 같은 7단계로 구성됩니다:\n\n1. **초과된 수질 기준에 대한 확인 및 기록**: 수질 기준을 초과한 경우, 해당 수치가 정확한지 재검토하고, 이를 문서화하여 향후 조치에 대한 근거를 마련하는 과정입니다.\n\n2. **초과 원인 분석**: 수질 기준을 초과한 원인을 파악하기 위해 샘플링 및 분석을 실시하고, 관련 데이터를 검토하여 문제의 근본 원인을 규명합니다. 이를 통해 적절한 대응 방안을 마련할 수 있습니다.\n\n3. **조치 계획 수립**: 초과 원인 분석을 바탕으로 구체적인 조치 계획을 수립합니다.\n\n4. **조치 이행**: 수립된 조치 계획에 따라 필요한 조치를 실행합니다.\n\n5. **효과 검증**: 조치 이행 후, 수질 개선 효과를 검증하기 위해 추가적인 수질 검사를 실시합니다.\n\n6. **사후 관리 및 모니터링**: 수질을 개선하기 위한 조치를 취한 후, 그 효과를 지속적으로 모니터링하여 재발 방지 및 환경 보호를 위한 조치를 확인하는 과정입니다.\n\n7. **보고 및 기록 유지**: 모든 과정과 결과를 문서화하여 관련 기관에 보고하고, 기록을 유지합니다. \n\n이러한 절차를 통해 수질 기준 초과에 대한 체계적인 대응이 이루어집니다.",
+      "ground_truth": "1단계 기준초과 확인, 2단계 4시간 이내 환경부·지자체 보고, 3단계 재검사 실시, 4단계 원인 규명, 5단계 급수 중단 또는 대체 급수, 6단계 개선 조치 후 재검사 통과 시 급수 재개, 7단계 30일 이내 사고 보고서 환경부 제출입니다.",
+      "cypher_query": "MATCH (n:__Entity__)-[r]->(v:__Entity__) \nWHERE n.id CONTAINS '수질기준 초과' AND type(r) IN ['적용한다', '규정한다', '관할한다'] \nRETURN n.id AS 항목, type(r) AS 관계, v.id AS 조치 LIMIT 10\n",
+      "latency_sec": 13.603,
+      "scores": {
+        "faithfulness": 0.1765,
+        "answer_relevancy": 0.625,
+        "context_precision": 0.25,
+        "keyword_recall": 0.0,
+        "numeric_accuracy": 1.0,
+        "overall": 0.3316
+      },
+      "error": null
+    },
+    {
+      "id": "Q15",
+      "category": "법령",
+      "difficulty": "easy",
+      "question": "먹는물 수질기준에서 잔류염소는 매일 검사해야 하는가?",
+      "answer": "네, 먹는물 수질기준에서 잔류염소는 매일 검사해야 합니다. 이는 잔류염소가 물의 소독 상태를 나타내며, 수돗물의 안전성을 확보하기 위해 필수적인 요소이기 때문입니다. 매일 검사를 통해 잔류염소 농도가 적정 수준(0.2~4.0 mg/L)인지 확인하고, 수질 오염이나 소독 효과의 변화를 조기에 발견할 수 있습니다.",
+      "ground_truth": "잔류염소는 매일 1회 이상 검사해야 합니다.",
+      "cypher_query": "MATCH (l:__Entity__)-[:검사주기이다]->(s:__Entity__) \nWHERE l.id CONTAINS '먹는물' AND s.id CONTAINS '잔류염소' \nRETURN l.id AS 법령, s.id AS 검사주기 LIMIT 10\n",
+      "latency_sec": 6.419,
+      "scores": {
+        "faithfulness": 0.8,
+        "answer_relevancy": 0.8333,
+        "context_precision": 1.0,
+        "keyword_recall": 1.0,
+        "numeric_accuracy": 1.0,
+        "overall": 0.9333
+      },
+      "error": null
+    },
+    {
+      "id": "Q16",
+      "category": "사고_사례",
+      "difficulty": "hard",
+      "question": "인천 붉은 수돗물 사고의 원인과 위반된 수질기준 항목은?",
+      "answer": "인천 붉은 수돗물 사고의 원인은 수계 전환 과정에서 배수관 내 침적물이 유출된 것입니다. 이 사고는 인천광역시 상수도사업본부의 상수도 관리 및 수질 관리 문제로 인해 발생하였으며, 2019년에 발생하였습니다. \n\n위반된 수질기준 항목은 다음과 같습니다:\n1. 탁도 0.5 NTU 초과\n2. 철 0.3 mg/L 초과\n\n이 사고로 인해 인천광역시 서구와 부평구 지역의 약 6만 세대가 피해를 입었습니다. 인천광역시 상수도사업본부는 수계 전환을 중단하고 원인 조사를 실시하였으며, 문제 구간의 배수관을 세척 및 교체하고 수질검사를 강화하는 조치를 취했습니다. 재발 방지를 위해 수계 전환 시 사전 수질 모니터링을 강화할 계획입니다.",
+      "ground_truth": "2019년 인천 붉은 수돗물 사고는 수계 전환 과정에서 배수관 내 침전물이 유출되어 발생했습니다. 위반된 수질기준은 탁도 0.5 NTU 초과와 철 0.3 mg/L 초과로 심미적 항목 기준을 위반했습니다.",
+      "cypher_query": "MATCH (a:__Entity__)-[r:원인이다]->(c:__Entity__) \nWHERE a.id CONTAINS '인천' AND a.id CONTAINS '붉은 수돗물' \nRETURN a.id AS 사고, type(r) AS 관계, c.id AS 원인 LIMIT 10\n",
+      "latency_sec": 15.307,
+      "scores": {
+        "faithfulness": 0.5,
+        "answer_relevancy": 0.875,
+        "context_precision": 1.0,
+        "keyword_recall": 0.8333,
+        "numeric_accuracy": 1.0,
+        "overall": 0.8042
+      },
+      "error": null
+    },
+    {
+      "id": "Q17",
+      "category": "사고_사례",
+      "difficulty": "hard",
+      "question": "낙동강 페놀 오염 사고가 수질 법령에 미친 영향은?",
+      "answer": "낙동강 페놀 오염 사고는 수질환경보전법을 강화하고, 폐수종말처리를 의무화하는 등의 법령 개정으로 이어졌습니다. 또한, 두산전자 구미공장은 조업 정지 및 형사처벌을 받았으며, 약 400억원 규모의 피해 보상이 이루어졌습니다. 따라서 이 사고는 수질 법령에 직접적인 영향을 미쳤다고 볼 수 있습니다.",
+      "ground_truth": "1991년 낙동강 페놀 오염 사고 이후 수질환경보전법이 대폭 개정되어 폐수종말처리 의무화가 시행되었습니다. K-water 낙동강 정수장에는 오존+UV+염소 고도처리 방식이 도입되었습니다.",
+      "cypher_query": "MATCH (a:__Entity__)-[r1]->(b:__Entity__) \nWHERE a.id CONTAINS '낙동강' AND a.id CONTAINS '페놀' AND type(r1) IN ['원인이다', '관할한다', '적용된다']\nOPTIONAL MATCH (b)-[r2]->(c:__Entity__) \nWHERE type(r2) IN ['규정한다', '포함한다']\nRETURN a.id AS 사고, type(r1) AS 관계1, b.id AS 법령, type(r2) AS 관계2, collect(c.id) AS 영향 LIMIT 10\n",
+      "latency_sec": 7.966,
+      "scores": {
+        "faithfulness": 0.6667,
+        "answer_relevancy": 0.625,
+        "context_precision": 0.8,
+        "keyword_recall": 0.6,
+        "numeric_accuracy": 1.0,
+        "overall": 0.7192
+      },
+      "error": null
+    },
+    {
+      "id": "Q18",
+      "category": "사고_사례",
+      "difficulty": "hard",
+      "question": "낙동강 페놀 사고에서 두산전자의 처벌 결과는?",
+      "answer": "낙동강 페놀 사고에서 두산전자의 처벌 결과는 다음과 같습니다:\n- 두산전자 공장 조업 정지 (2차 사고 포함)\n- 형사처벌: 관련자 구속·기소\n- 손해배상: 약 400억원 규모 피해 보상\n- 법령 강화: 수질환경보전법 대폭 개정, 폐수종말처리 의무화 (수질환경보전법 제15조 위반)",
+      "ground_truth": "낙동강 페놀 사고에서 두산전자는 공장 조업 정지 처분을 받았고, 관련자가 구속·기소되었으며, 약 400억원 규모의 손해배상을 지급했습니다.",
+      "cypher_query": "MATCH (a:__Entity__)-[:처벌받는다]->(p:__Entity__) \nWHERE a.id CONTAINS '두산전자' AND a.id CONTAINS '낙동강' AND a.id CONTAINS '페놀' \nRETURN a.id AS 기관, collect(p.id) AS 처벌결과 LIMIT 10\n",
+      "latency_sec": 6.226,
+      "scores": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 1.0,
+        "context_precision": 0.75,
+        "keyword_recall": 0.75,
+        "numeric_accuracy": 1.0,
+        "overall": 0.8875
+      },
+      "error": null
+    },
+    {
+      "id": "Q19",
+      "category": "멀티홉",
+      "difficulty": "hard",
+      "question": "오존 소독을 도입한 정수장과 그 이유, 그리고 오존 소독의 한계를 연결하여 설명하라.",
+      "answer": "오존 소독을 도입한 정수장의 사례로는 미국의 뉴욕시 정수장이 있습니다. 뉴욕시는 오존을 사용하여 수돗물의 미생물과 유기물질을 효과적으로 제거하고, 물의 맛과 냄새를 개선하는 데 성공했습니다. \n\n오존 소독을 사용하는 이유는 다음과 같습니다: \n1. **강력한 살균력**: 오존은 박테리아, 바이러스, 곰팡이 등 다양한 미생물을 효과적으로 제거할 수 있는 강력한 산화제입니다.\n2. **잔여물 없음**: 오존은 물속에서 빠르게 분해되어 잔여물이 남지 않아 수돗물의 맛과 냄새에 영향을 주지 않습니다.\n3. **화학물질 감소**: 오존 소독은 염소와 같은 전통적인 소독제에 비해 화학물질의 사용을 줄일 수 있습니다.\n4. **냄새 및 맛 개선**: 오존은 물속의 유기물질을 산화시켜 불쾌한 냄새와 맛을 제거하는 데 도움을 줍니다. \n\n그러나 오존 소독의 한계도 존재합니다:\n1. 활성탄 여과와 함께 사용될 때 효과가 제한됩니다.\n2. 염소 소독과의 병행 사용에서도 한계가 있습니다.\n3. 잔류 효과가 없어 배수관 내 재오염 방지가 불가능하여 후염소 병행이 필수입니다.\n4. 브로모산염(BrO₃⁻) 생성 가능성이 있으며, 기준은 0.01 mg/L 이하입니다.\n5. 높은 설치 비용이 발생합니다.\n\n이러한 이유로 오존 소독은 정수장에서 널리 사용되지만, 그 한계로 인해 추가적인 소독 방법이 필요할 수 있습니다.",
+      "ground_truth": "K-water 낙동강 정수장은 1991년 페놀 사고 이후 강화된 처리 방식으로 오존+UV+염소 고도처리를 적용합니다. 오존 소독은 크립토스포리디움, 지아디아 같은 원충을 효과적으로 제거하고 맛·냄새 물질 제거에도 우수하지만, 잔류 효과가 없어 배수관 내 재오염 방지를 위해 후염소 처리를 병행해야 합니다.",
+      "cypher_query": "MATCH (j:__Entity__)-[:사용한다]->(m:__Entity__) \nWHERE j.id CONTAINS '오존' AND j.id CONTAINS '정수장' \nRETURN j.id AS 정수장, collect(m.id) AS 소독방법 LIMIT 10\n",
+      "latency_sec": 18.864,
+      "scores": {
+        "faithfulness": 0.3333,
+        "answer_relevancy": 0.4,
+        "context_precision": 1.0,
+        "keyword_recall": 0.5,
+        "numeric_accuracy": 1.0,
+        "overall": 0.5983
+      },
+      "error": null
+    },
+    {
+      "id": "Q20",
+      "category": "멀티홉",
+      "difficulty": "hard",
+      "question": "페놀의 먹는물 수질기준과 1991년 낙동강 사고에서의 실제 검출 농도를 비교하라.",
+      "answer": "페놀의 먹는물 수질기준은 0.005 mg/L 이하입니다. (출처: 수질환경보전법) 1991년 낙동강 사고에서 검출된 페놀 농도는 최대 0.22 mg/L로, 이는 수질기준인 0.005 mg/L를 초과한 수치입니다. (출처: 낙동강 페놀 오염 사고 관련 문서)\n\n결론적으로, 페놀의 기준 초과는 환경 오염의 심각성을 강조하며, 관련 법규의 필요성을 재확인하는 사례입니다.",
+      "ground_truth": "먹는물 수질기준에서 페놀은 0.005 mg/L 이하여야 합니다. 1991년 낙동강 페놀 오염 사고에서 최대 0.22 mg/L가 검출되어 기준치의 44배를 초과했습니다.",
+      "cypher_query": "MATCH (n:__Entity__)-[r]->(v:__Entity__) \nWHERE n.id CONTAINS '페놀' AND (type(r) IN ['기준값이다', '규정한다', '포함한다']) \nRETURN n.id AS 항목, type(r) AS 관계, v.id AS 값 LIMIT 10\n",
+      "latency_sec": 13.859,
+      "scores": {
+        "faithfulness": 0.7143,
+        "answer_relevancy": 0.4,
+        "context_precision": 0.75,
+        "keyword_recall": 0.75,
+        "numeric_accuracy": 1.0,
+        "overall": 0.7561
+      },
+      "error": null
+    }
+  ]
+}

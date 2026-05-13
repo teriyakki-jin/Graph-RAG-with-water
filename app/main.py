@@ -2,11 +2,14 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
 
 from app.api.v1 import router as v1_router
 from app.core.config import settings
-from app.core.database import get_driver, close_driver
+from app.core.database import get_driver, get_neo4j_graph, close_driver
 from app.core.exceptions import register_exception_handlers
+from app.core.limiter import limiter
 from app.core.logging import setup_logging, get_logger
 
 logger = get_logger(__name__)
@@ -16,7 +19,8 @@ logger = get_logger(__name__)
 async def lifespan(app: FastAPI):
     setup_logging()
     logger.info("Starting GraphRAG API", env=settings.app_env)
-    await get_driver()   # 앱 시작 시 드라이버 초기화 & 연결 확인
+    await get_driver()      # 앱 시작 시 async 드라이버 초기화 & 연결 확인
+    get_neo4j_graph()       # LangChain Neo4jGraph 싱글턴 사전 초기화
     yield
     await close_driver()
     logger.info("GraphRAG API shutdown complete")
@@ -33,11 +37,14 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Next.js dev server
+    allow_origins=settings.cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 app.include_router(v1_router, prefix="/api")
 register_exception_handlers(app)

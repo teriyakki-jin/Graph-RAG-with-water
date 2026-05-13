@@ -29,7 +29,7 @@ DEFAULT_API_URL = "http://localhost:8888/api/v1/query"
 async def call_rag(
     question: str,
     api_url: str,
-    timeout: float = 60.0,
+    timeout: float = 120.0,
 ) -> tuple[str, list[str], Optional[str]]:
     """RAG API 호출. (answer, contexts, cypher_query) 반환."""
     payload = {"question": question, "k_vector": 4}
@@ -182,7 +182,7 @@ def print_report(report: dict) -> None:
     }
     for k, label in metrics_label.items():
         val = agg.get(k, 0.0)
-        bar = "█" * int(val * 20) + "░" * (20 - int(val * 20))
+        bar = "#" * int(val * 20) + "." * (20 - int(val * 20))
         print(f"  {label} {bar} {val:.2%}")
 
     print()
@@ -198,7 +198,7 @@ def print_report(report: dict) -> None:
     print()
     print("  ── 개별 결과 ─────────────────────────────────────────")
     for r in report["results"]:
-        flag = "✓" if not r["error"] else "✗"
+        flag = "O" if not r["error"] else "X"
         overall = r["scores"]["overall"]
         kr = r["scores"]["keyword_recall"]
         na = r["scores"]["numeric_accuracy"]

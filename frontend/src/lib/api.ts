@@ -14,16 +14,6 @@ export async function fetchNeighbors(name: string): Promise<GraphData> {
   return res.json();
 }
 
-export async function querySync(question: string): Promise<QueryResponse> {
-  const res = await fetch(`${BASE}/query`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ question }),
-  });
-  if (!res.ok) throw new Error(`Query failed: ${res.status}`);
-  return res.json();
-}
-
 export interface StreamCallbacks {
   onStatus(msg: string): void;
   onContext(ctx: SSEContext): void;

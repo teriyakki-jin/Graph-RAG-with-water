@@ -69,15 +69,23 @@ ALLOWED_RELATIONSHIPS = [
     "초과한다",         # 수질사고 → 수질기준값
     "처벌받는다",       # 기관 → 처벌규정
     "원인이다",         # 수질사고 → 위반항목
+
+    # 범용 관계 (고립 노드 연결용)
+    "관련된다",         # 일반적 연관 관계
+    "생성한다",         # 공정/약품 → 소독부산물
+    "영향을준다",       # 공정/물질 → 수질항목
+    "측정한다",         # 검사방법 → 항목
+    "속한다",           # 항목 → 분류
+    "정의된다",         # 항목 → 법령/고시
 ]
 
 
 def build_graph_transformer() -> LLMGraphTransformer:
     llm = ChatOpenAI(
-        model=settings.llm_model,
+        model=settings.extraction_model,
         api_key=settings.openai_api_key,
         temperature=0,
-        max_tokens=4096,
+        max_tokens=8192,
     )
     return LLMGraphTransformer(
         llm=llm,
@@ -93,27 +101,40 @@ def build_graph_transformer() -> LLMGraphTransformer:
 async def extract_graph_documents(
     chunks: list[Document],
     transformer: LLMGraphTransformer,
-    batch_size: int = 5,
+    batch_size: int = 2,
 ) -> list[GraphDocument]:
     """청크를 배치로 처리하여 GraphDocument 목록 반환."""
+    import asyncio
+
     graph_docs: list[GraphDocument] = []
+    total_batches = (len(chunks) + batch_size - 1) // batch_size
 
     for i in range(0, len(chunks), batch_size):
         batch = chunks[i : i + batch_size]
-        logger.info(
-            "Extracting graph",
-            batch=f"{i // batch_size + 1}/{(len(chunks) - 1) // batch_size + 1}",
-            chunks=len(batch),
-        )
-        try:
-            result = await transformer.aconvert_to_graph_documents(batch)
-            graph_docs.extend(result)
-            logger.info(
-                "Batch extracted",
-                nodes=sum(len(g.nodes) for g in result),
-                relationships=sum(len(g.relationships) for g in result),
-            )
-        except Exception as e:
-            logger.error("Batch extraction failed", batch_start=i, error=str(e))
+        batch_num = i // batch_size + 1
+        logger.info("Extracting graph", batch=f"{batch_num}/{total_batches}", chunks=len(batch))
+
+        for attempt in range(4):
+            try:
+                result = await transformer.aconvert_to_graph_documents(batch)
+                graph_docs.extend(result)
+                logger.info(
+                    "Batch extracted",
+                    nodes=sum(len(g.nodes) for g in result),
+                    relationships=sum(len(g.relationships) for g in result),
+                )
+                break
+            except Exception as e:
+                if "429" in str(e) and attempt < 3:
+                    wait = 65 * (attempt + 1)
+                    logger.warning("Rate limit hit, retrying", attempt=attempt + 1, wait_sec=wait)
+                    await asyncio.sleep(wait)
+                else:
+                    logger.error("Batch extraction failed", batch_start=i, error=str(e))
+                    break
+
+        # 배치 간 간격 (연속 rate limit 방지)
+        if i + batch_size < len(chunks):
+            await asyncio.sleep(5)
 
     return graph_docs

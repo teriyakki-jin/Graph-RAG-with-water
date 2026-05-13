@@ -9,7 +9,6 @@
 
 <img width="2816" height="1536" alt="Gemini_Generated_Image_r9t2z8r9t2z8r9t2" src="https://github.com/user-attachments/assets/da24f414-09b1-49ad-9855-aa268a3c2462" />
 
-
 ---
 
 ## 기술 스택
@@ -17,19 +16,20 @@
 | 레이어 | 기술 |
 |--------|------|
 | API | FastAPI 0.115, SSE 스트리밍 |
-| LLM | OpenAI GPT-4o-mini |
+| 질의 LLM | OpenAI GPT-4o-mini |
+| 추출 LLM | OpenAI GPT-4o (그래프 구축 전용) |
 | 그래프 DB | Neo4j 5.20 Community |
 | 그래프 추출 | LangChain LLMGraphTransformer |
 | 임베딩 | KR-SBERT (snunlp/KR-SBERT-V40K-klueNLI-augSTS) |
 | 캐시 | 인메모리 LRU (TTL 1시간) |
-| 프론트엔드 | Next.js 14 + D3.js (force-directed graph) |
+| 프론트엔드 | Next.js 16 + D3.js (force-directed graph) |
 | 인프라 | Docker Compose (Neo4j) |
 
 ---
 
 ## 도메인 온톨로지
 
-수처리 법령·공정·사고를 표현하는 20종 노드와 18종 관계로 구성된 한국어 온톨로지.
+수처리 법령·공정·사고를 표현하는 20종 노드와 24종 관계로 구성된 한국어 온톨로지.
 
 ```
 노드 타입 (20종)
@@ -40,10 +40,11 @@
 ├── 기관:     기관 · 지역
 └── 사고:     수질사고 · 위반항목 · 처벌규정
 
-관계 타입 (18종)
+관계 타입 (24종)
   규정한다 · 포함한다 · 기준값이다 · 검사주기이다
   처리한다 · 사용한다 · 적용한다 · 운영한다
-  위반한다 · 초과한다 · 처벌받는다 · 원인이다 ...
+  위반한다 · 초과한다 · 처벌받는다 · 원인이다
+  생성한다 · 영향을준다 · 측정한다 · 속한다 · 정의된다 · 관련된다 ...
 ```
 
 ---
@@ -58,6 +59,16 @@ cd Graph-RAG-with-water
 
 cp .env.example .env
 # .env에서 OPENAI_API_KEY 설정
+```
+
+`.env` 주요 설정:
+
+```env
+OPENAI_API_KEY=sk-...
+LLM_MODEL=gpt-4o-mini        # 질의 응답 모델
+EXTRACTION_MODEL=gpt-4o      # 그래프 추출 모델 (파이프라인 1회 실행)
+CHUNK_SIZE=1500
+CHUNK_OVERLAP=150
 ```
 
 ### 2. Neo4j 실행
@@ -76,18 +87,24 @@ pip install -r requirements.txt
 ### 4. 지식 그래프 구축 (오프라인 파이프라인)
 
 ```bash
-python -m pipeline.run --source data/docs
+python -m pipeline.run --source data/docs --batch-size 2
 ```
 
 ```
-문서 6종 → 청크 25개 → 노드 247개 / 관계 194개
+문서 8종 → 청크 14개 → 노드 ~200개 / 관계 ~160개
 ```
+
+> **참고 (gpt-4o Rate Limit):** 무료/저티어 계정은 TPM 30,000 제한으로 배치 실패가 발생할 수 있습니다.  
+> `--batch-size 2` 옵션과 파이프라인 내 자동 재시도 로직(65초 대기)이 이를 처리합니다.
 
 ### 5. API 서버 실행
 
 ```bash
-uvicorn app.main:app --host 0.0.0.0 --port 8888 --reload
+uvicorn app.main:app --host 127.0.0.1 --port 9000 --reload
 ```
+
+> **Windows 포트 주의:** Windows는 일부 포트 범위를 예약합니다 (`netsh int ipv4 show excludedportrange protocol=tcp`로 확인).  
+> 8000(7998-8097), 8080도 예약 범위에 포함될 수 있어 **9000번 포트**를 권장합니다.
 
 ### 6. 프론트엔드 실행
 
@@ -98,6 +115,8 @@ npm run dev
 # http://localhost:3000
 ```
 
+프론트엔드는 `/api/*` 요청을 `http://localhost:9000`으로 프록시합니다 (`next.config.ts`).
+
 ---
 
 ## 질의 예시
@@ -105,7 +124,7 @@ npm run dev
 ### 단순 기준값 조회
 
 ```bash
-curl -X POST http://localhost:8888/api/v1/query \
+curl -X POST http://localhost:9000/api/v1/query \
   -H "Content-Type: application/json" \
   -d '{"question": "먹는물의 탁도 기준은 얼마인가?"}'
 ```
@@ -148,7 +167,7 @@ source.addEventListener("token", (e) => {
 .
 ├── app/                        # FastAPI 백엔드
 │   ├── api/v1/                 # 엔드포인트 (query, graph, health)
-│   ├── core/                   # config, cache, logging, exceptions
+│   ├── core/                   # config, cache, logging, exceptions, limiter
 │   ├── services/               # hybrid_retriever, graph_retriever, vector_retriever
 │   └── repositories/           # graph_repository (Cypher 쿼리)
 │
@@ -158,24 +177,27 @@ source.addEventListener("token", (e) => {
 │   └── graph/                  # neo4j_writer
 │
 ├── evaluation/                 # 벤치마크 평가
-│   ├── qa_pairs.json           # 도메인 Q&A 20문항
+│   ├── qa_pairs.json           # 도메인 Q&A 40문항
 │   ├── metrics.py              # 5가지 평가 지표
 │   └── evaluator.py            # 평가 실행기
 │
 ├── frontend/                   # Next.js + D3.js
 │   └── src/
+│       ├── app/                # 페이지
 │       ├── components/         # GraphViewer, QueryPanel, NodeDetail
-│       └── hooks/              # useGraphSimulation
+│       └── lib/                # api 클라이언트
 │
-├── data/docs/                  # 수처리 도메인 문서 6종
+├── data/docs/                  # 수처리 도메인 문서 8종
 │   ├── 수도법_발췌.txt
 │   ├── 먹는물수질기준_전체.txt
 │   ├── 정수처리공정.txt
 │   ├── 소독공정_상세.txt
 │   ├── 수질사고사례.txt
-│   └── 수질사고_처벌규정.txt
+│   ├── 수질사고_처벌규정.txt
+│   ├── THM_소독부산물.txt
+│   └── 처벌_과태료_qa.txt
 │
-└── tests/                      # 유닛 + 통합 테스트 (32개)
+└── tests/                      # 유닛 + 통합 테스트
 ```
 
 ---
@@ -187,7 +209,7 @@ source.addEventListener("token", (e) => {
 | `POST` | `/api/v1/query` | 동기 질의 응답 (캐시 적용) |
 | `GET` | `/api/v1/query/stream` | SSE 스트리밍 응답 |
 | `GET` | `/api/v1/graph/nodes` | 전체 노드 목록 조회 |
-| `GET` | `/api/v1/graph/neighbors/{id}` | 노드 이웃 관계 조회 |
+| `GET` | `/api/v1/graph/neighbors` | 노드 이웃 관계 조회 |
 | `GET` | `/api/v1/health` | 헬스체크 (Neo4j 포함) |
 
 ---
@@ -204,6 +226,20 @@ RAGAS에서 영감을 받은 5가지 지표로 자체 평가 프레임워크를 
 | Context Precision | 정답 키워드가 컨텍스트에 있는 비율 | 10% |
 | Answer Relevancy | 질문-답변 키워드 Jaccard 유사도 | 10% |
 
+### 최신 평가 결과 (v6, 40문항)
+
+| 카테고리 | Overall | Keyword Recall | Faithfulness |
+|----------|---------|---------------|--------------|
+| 기준값_단순 | **0.875** | 0.942 | 0.842 |
+| 공정_분석 | **0.849** | 0.867 | 0.843 |
+| 법령 | **0.842** | 0.758 | 0.859 |
+| 소독_비교 | **0.826** | 0.856 | 0.609 |
+| 사고_사례 | **0.803** | 0.608 | 0.845 |
+| 멀티홉 | **0.738** | 0.683 | 0.512 |
+| **전체** | **0.830** | **0.800** | **0.770** |
+
+난이도별: Easy 0.869 / Medium 0.823 / Hard 0.760
+
 ```bash
 # 전체 평가 실행
 python -m evaluation.evaluator
@@ -213,14 +249,12 @@ python -m evaluation.evaluator --difficulty hard
 python -m evaluation.evaluator --category 사고_사례
 ```
 
-평가셋 구성: 총 20문항 × 5카테고리 (기준값·소독비교·법령·사고사례·멀티홉)
-
 ---
 
 ## 테스트
 
 ```bash
-# 유닛 테스트 (32개)
+# 유닛 테스트
 pytest tests/unit/ -v
 
 # 통합 테스트 (서버 실행 필요)
@@ -246,4 +280,5 @@ Graph RAG: 수질사고 → 원인이다 → 낙동강정수장
            관계 체인을 따라 답변 재료 수집 → 연결된 맥락 제공
 ```
 
-멀티홉 질의, 법령-수치-사고 간 연결 추론에서 벡터 단독 검색보다 정확도가 높습니다.
+멀티홉 질의, 법령-수치-사고 간 연결 추론에서 벡터 단독 검색보다 정확도가 높습니다.  
+평가 결과 멀티홉 카테고리 Overall 0.738로, 단순 기준값(0.875) 대비 낮아 추가 개선 여지가 있습니다.

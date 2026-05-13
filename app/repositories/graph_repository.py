@@ -15,15 +15,16 @@ RETURN
 LIMIT $limit
 """
 
+# $ids — 노드 쿼리로 얻은 id 목록. 양 끝점이 모두 해당 집합에 속한 엣지만 반환해
+# D3.js에서 "node not found" 오류를 방지한다.
 _EDGE_QUERY = """
 MATCH (a:__Entity__)-[r]->(b:__Entity__)
-WHERE a.id IS NOT NULL AND b.id IS NOT NULL
+WHERE a.id IN $ids AND b.id IN $ids
 RETURN
   a.id          AS source,
   b.id          AS target,
   type(r)       AS rel_type,
   properties(r) AS props
-LIMIT $limit
 """
 
 _NEIGHBOR_QUERY = """
@@ -50,7 +51,8 @@ async def fetch_graph(limit: int = 100) -> GraphData:
             async for rec in node_result
         ]
 
-        edge_result = await session.run(_EDGE_QUERY, {"limit": limit})
+        node_ids = [n.id for n in nodes]
+        edge_result = await session.run(_EDGE_QUERY, {"ids": node_ids})
         edges = [
             GraphEdge(
                 source=rec["source"],

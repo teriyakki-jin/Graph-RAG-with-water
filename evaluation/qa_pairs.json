@@ -178,5 +178,185 @@
     "ground_truth": "먹는물 수질기준에서 페놀은 0.005 mg/L 이하여야 합니다. 1991년 낙동강 페놀 오염 사고에서 최대 0.22 mg/L가 검출되어 기준치의 44배를 초과했습니다.",
     "expected_keywords": ["0.005 mg/L", "0.22 mg/L", "페놀", "44배"],
     "expected_numeric": {"value": 0.005, "unit": "mg/L"}
+  },
+  {
+    "id": "Q21",
+    "category": "기준값_단순",
+    "difficulty": "easy",
+    "question": "먹는물 수질기준에서 납의 허용 기준은?",
+    "ground_truth": "먹는물 수질기준에서 납은 0.01 mg/L 이하여야 합니다.",
+    "expected_keywords": ["0.01", "mg/L", "납"],
+    "expected_numeric": {"value": 0.01, "unit": "mg/L"}
+  },
+  {
+    "id": "Q22",
+    "category": "기준값_단순",
+    "difficulty": "easy",
+    "question": "먹는물 수질기준에서 불소 허용 기준은 얼마인가?",
+    "ground_truth": "먹는물 수질기준에서 불소는 1.5 mg/L 이하여야 합니다.",
+    "expected_keywords": ["1.5", "mg/L", "불소"],
+    "expected_numeric": {"value": 1.5, "unit": "mg/L"}
+  },
+  {
+    "id": "Q23",
+    "category": "기준값_단순",
+    "difficulty": "easy",
+    "question": "먹는물 수질기준에서 망간 기준은?",
+    "ground_truth": "먹는물 수질기준에서 망간은 0.05 mg/L 이하여야 합니다.",
+    "expected_keywords": ["0.05", "mg/L", "망간"],
+    "expected_numeric": {"value": 0.05, "unit": "mg/L"}
+  },
+  {
+    "id": "Q24",
+    "category": "기준값_단순",
+    "difficulty": "easy",
+    "question": "먹는물 수질기준에서 질산성 질소의 허용 기준은?",
+    "ground_truth": "먹는물 수질기준에서 질산성 질소는 10 mg/L 이하여야 합니다.",
+    "expected_keywords": ["10", "mg/L", "질산성 질소"],
+    "expected_numeric": {"value": 10, "unit": "mg/L"}
+  },
+  {
+    "id": "Q25",
+    "category": "기준값_단순",
+    "difficulty": "easy",
+    "question": "먹는물 수질기준에서 총트리할로메탄(THM) 기준값은?",
+    "ground_truth": "먹는물 수질기준에서 총트리할로메탄은 0.1 mg/L 이하입니다.",
+    "expected_keywords": ["0.1", "mg/L", "총트리할로메탄", "THM"],
+    "expected_numeric": {"value": 0.1, "unit": "mg/L"}
+  },
+  {
+    "id": "Q26",
+    "category": "소독_비교",
+    "difficulty": "medium",
+    "question": "오존 소독 과정에서 생성될 수 있는 소독부산물과 그 수질기준은?",
+    "ground_truth": "오존 소독에서는 브로모산염(BrO₃⁻)이 생성될 수 있으며, 먹는물 수질기준은 0.01 mg/L 이하입니다.",
+    "expected_keywords": ["브로모산염", "오존", "0.01 mg/L"],
+    "expected_numeric": {"value": 0.01, "unit": "mg/L"}
+  },
+  {
+    "id": "Q27",
+    "category": "소독_비교",
+    "difficulty": "medium",
+    "question": "자연유기물(NOM)이 염소와 반응하면 어떤 소독부산물이 생성되는가?",
+    "ground_truth": "자연유기물(NOM)이 염소와 반응하면 트리할로메탄(THM)과 할로아세틱산(HAA)이 생성됩니다. 브롬화물이 존재하면 독성이 더 강한 브롬계 THM도 생성됩니다.",
+    "expected_keywords": ["NOM", "자연유기물", "THM", "HAA", "할로아세틱산", "브롬계"],
+    "expected_numeric": null
+  },
+  {
+    "id": "Q28",
+    "category": "소독_비교",
+    "difficulty": "medium",
+    "question": "UV(자외선) 소독과 오존 소독의 공통적인 단점은 무엇인가?",
+    "ground_truth": "UV 소독과 오존 소독은 모두 잔류 효과가 없어 배수관 내 재오염을 방지할 수 없습니다. 따라서 두 방법 모두 후염소 처리를 병행해야 합니다.",
+    "expected_keywords": ["잔류", "UV", "오존", "후염소"],
+    "expected_numeric": null
+  },
+  {
+    "id": "Q29",
+    "category": "공정_분석",
+    "difficulty": "medium",
+    "question": "K-water 수도권광역 정수장에서 사용하는 소독 방식은?",
+    "ground_truth": "K-water 수도권광역 정수장에서는 오존+활성탄+염소 고도처리 방식을 사용합니다.",
+    "expected_keywords": ["오존", "활성탄", "염소", "수도권광역"],
+    "expected_numeric": null
+  },
+  {
+    "id": "Q30",
+    "category": "공정_분석",
+    "difficulty": "medium",
+    "question": "정수 처리 후 잔류염소의 최대 허용 기준은?",
+    "ground_truth": "정수 처리 후 잔류염소는 4.0 mg/L 이하여야 합니다.",
+    "expected_keywords": ["4.0", "mg/L", "잔류염소"],
+    "expected_numeric": {"value": 4.0, "unit": "mg/L"}
+  },
+  {
+    "id": "Q31",
+    "category": "공정_분석",
+    "difficulty": "medium",
+    "question": "오존-활성탄(O₃-BAC) 고도처리로 소독부산물 전구물질을 얼마나 제거할 수 있는가?",
+    "ground_truth": "오존-활성탄(O₃-BAC) 고도처리를 통해 소독부산물 전구물질(자연유기물)을 90% 이상 제거할 수 있습니다.",
+    "expected_keywords": ["오존", "활성탄", "90%", "전구물질"],
+    "expected_numeric": {"value": 90, "unit": "%"}
+  },
+  {
+    "id": "Q32",
+    "category": "법령",
+    "difficulty": "easy",
+    "question": "먹는물 수질기준에서 매일 검사해야 하는 항목은 무엇인가?",
+    "ground_truth": "매일 검사해야 하는 항목은 잔류염소, 탁도, pH, 냄새, 맛, 색도입니다.",
+    "expected_keywords": ["잔류염소", "탁도", "pH", "냄새", "색도", "매일"],
+    "expected_numeric": null
+  },
+  {
+    "id": "Q33",
+    "category": "법령",
+    "difficulty": "medium",
+    "question": "수도법에서 수질검사를 실시하지 않은 경우 과태료는 얼마인가?",
+    "ground_truth": "수도법 제84조에 따라 수질검사를 실시하지 않은 자는 300만원 이하의 과태료에 처합니다.",
+    "expected_keywords": ["300만원", "과태료", "수질검사", "수도법", "제84조"],
+    "expected_numeric": {"value": 300, "unit": "만원"}
+  },
+  {
+    "id": "Q34",
+    "category": "법령",
+    "difficulty": "medium",
+    "question": "수도법 제84조에서 수질검사 결과 보고를 하지 않은 경우 과태료는?",
+    "ground_truth": "수도법 제84조에 따라 검사결과 보고를 하지 않은 자는 200만원 이하의 과태료에 처합니다.",
+    "expected_keywords": ["200만원", "과태료", "보고", "수도법", "제84조"],
+    "expected_numeric": {"value": 200, "unit": "만원"}
+  },
+  {
+    "id": "Q35",
+    "category": "사고_사례",
+    "difficulty": "hard",
+    "question": "1991년 낙동강 페놀 오염 사고에서 검출된 최대 페놀 농도는?",
+    "ground_truth": "1991년 낙동강 페놀 오염 사고에서 검출된 최대 페놀 농도는 0.22 mg/L로, 수질기준(0.005 mg/L)의 44배를 초과했습니다.",
+    "expected_keywords": ["0.22 mg/L", "페놀", "1991", "0.005", "44배"],
+    "expected_numeric": {"value": 0.22, "unit": "mg/L"}
+  },
+  {
+    "id": "Q36",
+    "category": "사고_사례",
+    "difficulty": "hard",
+    "question": "인천 붉은 수돗물 사고의 직접적인 원인은 무엇인가?",
+    "ground_truth": "2019년 인천 붉은 수돗물 사고는 수계 전환 과정에서 배수관 내 침적물이 유출되어 발생했습니다.",
+    "expected_keywords": ["2019", "인천", "수계전환", "배수관", "침적물"],
+    "expected_numeric": null
+  },
+  {
+    "id": "Q37",
+    "category": "사고_사례",
+    "difficulty": "hard",
+    "question": "K-water 낙동강 정수장에 도입된 고도처리 방식과 그 도입 계기는?",
+    "ground_truth": "1991년 낙동강 페놀 오염 사고 이후 처리 방식이 강화되어 K-water 낙동강 정수장에 오존+UV+염소 고도처리 방식이 도입되었습니다.",
+    "expected_keywords": ["낙동강", "오존", "UV", "염소", "1991", "페놀"],
+    "expected_numeric": null
+  },
+  {
+    "id": "Q38",
+    "category": "멀티홉",
+    "difficulty": "hard",
+    "question": "자연유기물(NOM)이 소독부산물 생성에 미치는 역할과 이를 저감하기 위한 고도처리 방법을 연결하여 설명하라.",
+    "ground_truth": "자연유기물(NOM)은 염소와 반응하여 총트리할로메탄(THM)과 할로아세틱산(HAA)을 생성하는 전구물질입니다. 오존-활성탄(O₃-BAC) 고도처리로 NOM을 90% 이상 제거하여 소독부산물 생성을 억제할 수 있습니다.",
+    "expected_keywords": ["NOM", "자연유기물", "THM", "오존", "활성탄", "90%"],
+    "expected_numeric": null
+  },
+  {
+    "id": "Q39",
+    "category": "멀티홉",
+    "difficulty": "hard",
+    "question": "K-water 낙동강 정수장이 오존+UV+염소 고도처리를 도입한 계기와 오존 소독의 한계를 연결하여 설명하라.",
+    "ground_truth": "1991년 낙동강 페놀 오염 사고 이후 수질 처리 강화를 위해 오존+UV+염소 고도처리가 도입되었습니다. 그러나 오존 소독은 잔류 효과가 없어 배수관 내 재오염 방지를 위해 후염소 처리를 병행해야 합니다.",
+    "expected_keywords": ["낙동강", "1991", "페놀", "오존", "잔류", "후염소"],
+    "expected_numeric": null
+  },
+  {
+    "id": "Q40",
+    "category": "멀티홉",
+    "difficulty": "hard",
+    "question": "먹는물 탁도 수질기준과 UV 소독 권장 탁도 조건을 비교하라.",
+    "ground_truth": "먹는물 수질기준에서 탁도는 0.5 NTU 이하입니다. UV 소독은 탁도 1 NTU 이하 조건에서 사용이 권장됩니다. 먹는물 탁도 기준(0.5 NTU)이 UV 소독 권장 조건(1 NTU)보다 더 엄격합니다.",
+    "expected_keywords": ["0.5 NTU", "1 NTU", "탁도", "UV"],
+    "expected_numeric": null
   }
 ]

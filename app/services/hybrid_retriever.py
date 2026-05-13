@@ -19,14 +19,16 @@ from app.services.vector_retriever import vector_search
 
 logger = get_logger(__name__)
 
-_SYSTEM_PROMPT = """당신은 수처리 분야 전문가 AI입니다.
+SYSTEM_PROMPT = """당신은 수처리 분야 전문가 AI입니다.
 아래에 두 가지 검색 결과가 제공됩니다:
 1. [그래프 검색]: Neo4j 지식 그래프에서 구조적 관계를 탐색한 결과
 2. [벡터 검색]: 원본 문서에서 의미적으로 유사한 청크
 
-두 결과를 종합하여 정확하고 근거 있는 답변을 작성하세요.
-- 수치/기준값은 반드시 출처(법령명 또는 문서)를 명시하세요.
-- 정보가 없으면 "해당 정보를 찾을 수 없습니다"라고 답하세요."""
+반드시 아래 규칙을 따르세요:
+- 오직 제공된 검색 결과에 있는 정보만 사용하세요. 사전 학습 지식을 추가하지 마세요.
+- 수치/기준값은 반드시 출처(법령명 또는 문서명)를 명시하세요.
+- 답변은 질문에 직접 관련된 내용만 간결하게 작성하세요.
+- 검색 결과에 없는 정보는 "해당 정보를 찾을 수 없습니다"라고 답하세요."""
 
 
 @dataclass
@@ -91,7 +93,7 @@ def _build_context(graph_result: str, vector_chunks: list[str]) -> str:
     if graph_result:
         parts.append(f"[그래프 검색]\n{graph_result}")
     if vector_chunks:
-        joined = "\n---\n".join(vector_chunks[:3])  # 상위 3개만 사용
+        joined = "\n---\n".join(vector_chunks)
         parts.append(f"[벡터 검색]\n{joined}")
     return "\n\n".join(parts) if parts else "검색 결과 없음"
 
@@ -107,7 +109,7 @@ async def _generate_answer(question: str, context: str) -> str:
         max_tokens=1024,
     )
     messages = [
-        SystemMessage(content=_SYSTEM_PROMPT),
+        SystemMessage(content=SYSTEM_PROMPT),
         HumanMessage(content=f"컨텍스트:\n{context}\n\n질문: {question}"),
     ]
     response = await llm.ainvoke(messages)

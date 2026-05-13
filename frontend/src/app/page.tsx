@@ -49,20 +49,31 @@ export default function Home() {
       });
       // 이웃 노드 하이라이트
       setHighlightIds(new Set(neighbors.nodes.map((n) => n.id)));
-    } catch (e) {
-      console.error(e);
+    } catch {
+      // 이웃 노드 조회 실패 시 현재 그래프 상태 유지
     }
   }, []);
 
-  // SSE context에서 관련 노드 하이라이트
+  // Cypher 쿼리에서 인용 문자열을 추출해 노드 label과 정확히 대조한다.
+  // 단순 substring 매칭은 짧은 노드명이 다른 단어에 잘못 포함되는 오탐을 낳는다.
+  const extractCypherEntities = useCallback((cypher: string): Set<string> => {
+    const entities = new Set<string>();
+    const regex = /['"]([^'"]+)['"]/g;
+    let m: RegExpExecArray | null;
+    while ((m = regex.exec(cypher)) !== null) {
+      entities.add(m[1]);
+    }
+    return entities;
+  }, []);
+
   const handleContext = useCallback((ctx: SSEContext) => {
     if (!ctx.cypher_query) return;
-    // 쿼리에 언급된 노드 이름으로 하이라이트 (휴리스틱)
+    const entities = extractCypherEntities(ctx.cypher_query);
     const mentioned = graph.nodes
-      .filter((n) => ctx.cypher_query!.includes(n.label))
+      .filter((n) => entities.has(n.label))
       .map((n) => n.id);
     if (mentioned.length > 0) setHighlightIds(new Set(mentioned));
-  }, [graph.nodes]);
+  }, [graph.nodes, extractCypherEntities]);
 
   return (
     <div className="flex flex-col h-screen bg-surface text-gray-100">

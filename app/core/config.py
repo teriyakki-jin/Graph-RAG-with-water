@@ -17,10 +17,15 @@ class Settings(BaseSettings):
     # OpenAI
     openai_api_key: str = Field(...)
     llm_model: str = Field(default="gpt-4o-mini")
+    extraction_model: str = Field(default="gpt-4o")
 
     # Embedding
     embedding_model: str = Field(default="snunlp/KR-SBERT-V40K-klueNLI-augSTS")
     embedding_dimension: int = Field(default=768)
+
+    # CORS — 프로덕션에서는 JSON 배열 문자열로 환경변수 설정
+    # 예: CORS_ORIGINS='["https://your-domain.com"]'
+    cors_origins: list[str] = Field(default=["http://localhost:3000"])
 
     # App
     app_env: str = Field(default="development")

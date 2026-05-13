@@ -81,16 +81,15 @@ def compute_faithfulness(answer: str, contexts: list[str]) -> float:
 
 def compute_answer_relevancy(question: str, answer: str) -> float:
     """
-    질문-답변 키워드 중복 기반 관련성.
-    간단한 Jaccard 유사도로 측정.
+    질문 키워드가 답변에 등장하는 비율 (precision 방식).
+    Jaccard는 답변이 길수록 구조적으로 낮아지는 문제가 있어 precision으로 교체.
     """
     q_tokens = _tokenize_korean(question)
     a_tokens = _tokenize_korean(answer)
     if not q_tokens or not a_tokens:
         return 0.0
-    intersection = q_tokens & a_tokens
-    union = q_tokens | a_tokens
-    return len(intersection) / len(union)
+    found = sum(1 for t in q_tokens if t in a_tokens)
+    return found / len(q_tokens)
 
 
 def compute_context_precision(expected_keywords: list[str], contexts: list[str]) -> float:

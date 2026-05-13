@@ -49,5 +49,16 @@ evaluation/eval_result.json
 Thumbs.db
 desktop.ini
 
+# Temp / logs
+tmp_*.py
+tmp_*.txt
+uvicorn*.log
+
+# Frontend build artifacts
+frontend/tsconfig.tsbuildinfo
+
 # Review files
 GEMINI_REVIEW.md
+
+# Velog posts
+velog_post*.md
